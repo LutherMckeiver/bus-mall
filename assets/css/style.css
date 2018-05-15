@@ -5,8 +5,12 @@ body {
 
 div {
     width: 100%;
+    border:black solid 3px;
 }
 
 img {
-    width: 33%;
+    width: 200px;
+    padding: 50px;
+    border: black solid 3px;
+    
 }
