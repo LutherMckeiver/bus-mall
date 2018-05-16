@@ -13,6 +13,11 @@ var picture2index = 0;
 var picture3index = 0;
 
 var totalClicks = 0;
+// =========== Chart
+var voteChart = [];
+var busName = [];
+
+
 
 //=============================
 function Picture(src, name) {
@@ -22,6 +27,25 @@ function Picture(src, name) {
 
   allPictures.push(this);
 }
+
+function updateChartArrays() {
+  for (var i = 0; i < allPictures.length; i++) {
+    console.log(allPictures);
+    busName[i] = allPictures[i].name;
+    voteChart[i] = allPictures[i].clicked;
+
+  }
+}
+
+function busMallVote(thisPicture) {
+  for (var i = 0; i < allPictures.length; i++) {
+    if (thisPicture === allPictures[i].clicked) {
+      allPictures[i].voteChart++;
+      updateChartArrays();
+    }
+  }
+}
+
 
 //Event Listeners
 
@@ -39,6 +63,12 @@ function sectionCallback(event) {
     alert('click on an image');
   }
 }
+
+document.getElementById('click-tracker-container').addEventListener('click', function(event) {
+  if (event.target.id !== 'click-tracker-container') {
+    busMallVote(event.target.id);
+  }
+});
 
 // Helper functions
 // =============new pictures ======================
@@ -72,8 +102,6 @@ function chooseNewPictures() {
 
 }
 
-
-
 //==================
 
 function renderResults(){
@@ -86,7 +114,7 @@ function renderResults(){
 
 function checkTotalClicks() {
   if(totalClicks === 25){
-
+    drawChart();
     renderResults();
 
     sectionEl.removeEventListener('click', sectionCallback);
@@ -116,3 +144,59 @@ new Picture('/assets/images/water-can.jpg', 'water-can');
 new Picture('/assets/images/wine-glass.jpg', 'wine-glass');
 
 chooseNewPictures();
+
+
+
+
+function drawChart() {
+  updateChartArrays();
+
+  var data = {
+    labels: busName, // titles array we declared earlier
+    datasets: [{
+      label: '# of clicks on each product',
+      data: voteChart, // votes array we declared earlier
+      backgroundColor: [
+        'black', 'black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black','black',
+      ],
+      hoverBackgroundColor: [
+        'blue', 'blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue','blue',
+      ]
+    }]
+  };
+
+  var ctx = document.getElementById('busMallResults').getContext('2d');
+  var busMallResults = new Chart(ctx, {
+    type: 'horizontalBar',
+    data: data,
+    options: {
+      responsive: false,
+      animation: {
+        duration: 1000,
+        easing: 'easeOutBounce'
+      }
+    },
+    scales: {
+      yAxes: [{
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 1.0,
+          scaleOverride: true,
+          scaleStartValue: 0,
+          scaleSteps: 15,
+        }
+      }],
+      xAxes: [{
+        ticks: {
+          max: 10,
+          min: 0,
+          stepSize: 1.0,
+          scaleOverride: true,
+          scaleStartValue: 0,
+          scaleSteps: 15,
+        }
+      }],
+    }
+  });
+}
