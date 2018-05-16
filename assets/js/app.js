@@ -145,7 +145,7 @@ new Picture('/assets/images/wine-glass.jpg', 'wine-glass');
 
 chooseNewPictures();
 
-
+// ================= Chart =================
 
 
 function drawChart() {
