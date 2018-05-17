@@ -26,6 +26,8 @@ function Picture(src, name) {
   this.clicked = 0;
 
   allPictures.push(this);
+//  This is where the localStorage should go.
+
 }
 
 function updateChartArrays() {
@@ -116,6 +118,7 @@ function checkTotalClicks() {
   if(totalClicks === 25){
     drawChart();
     renderResults();
+    // Local Storage. 
 
     sectionEl.removeEventListener('click', sectionCallback);
   }
@@ -145,7 +148,7 @@ new Picture('/assets/images/wine-glass.jpg', 'wine-glass');
 
 chooseNewPictures();
 
-// ================= Chart =================
+// ================  Chart
 
 
 function drawChart() {
